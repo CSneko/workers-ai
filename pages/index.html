@@ -3,14 +3,19 @@
     <head>
         <title>AI</title>
         <meta charset="UTF-8">
+        <link href="css/index.css" rel="stylesheet">
+        <link href="css/common.css" rel="stylesheet">
     </head>
     <body>
-        <input type="text" id="prompt">
-        <input type="text" id="input_box">
-        <button onclick="getValue()">发送</button>
-        <button onclick="removeData()">清除</button>
-        <br>
+        <div id="type_box">
+            <textarea id="input_box" rows="2"></textarea>
+            <button onclick="getValue()">发送</button>
+            <button onclick="removeData()">清除</button>
+            <a href="settings.html"><button>设置</button></a>
+        </div>
         <div id="messages"></div>
     </body>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="js/common.js"></script>
     <script src="js/index.js"></script>
 </html>

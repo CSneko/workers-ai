@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>设置</title>
+        <link href="css/common.css" rel="stylesheet">
+        <link href="css/settings.css" rel="stylesheet">
+    </head>
+    <body>
+        <a href="index.html"><h2>返回主页</h2></a>
+        <div class="options">
+            <p>背景图片链接</p>
+            <input type="text" id="background_input">
+            <button onclick="set_background_img()">更改</button>
+            <p>提示词</p>
+            <input type="text" id="prompt_input">
+            <button onclick="set_prompt()">更改</button>
+            <p>字体颜色</p>
+            <input type="text" id="font_color_input">
+            <button onclick="set_font_color()">更改</button>
+            <p>是否解析Markdown y/n</p>
+            <input type="text" id="md_input">
+            <button onclick="set_md_enable()">更改</button>
+        </div>
+    </body>
+    <script src="js/common.js"></script>
+    <script src="js/settings.js"></script>
+</html>
