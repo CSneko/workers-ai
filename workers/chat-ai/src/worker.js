@@ -49,7 +49,7 @@ var src_default = {
 
 async function getRes(prompt, text, env, past_msgs) {
   try{
-  const API_KEY = "AIzaSyDoZTP0mkKBIwFOrbG-shI_fLG6Mv6QwCQ";
+  const API_KEY = "yourkeys";
   var msg_json = {
     contents: [{
       role: "user",
