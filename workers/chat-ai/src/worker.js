@@ -5,17 +5,19 @@ var src_default = {
   async fetch(request, env) {
   //判断请求
   if (request.method == "OPTIONS"){
-    return createCORSResponse("{'status':'success'}",{ 'Content-Type': 'application/json' },200);
+    return createCORSResponse("{\"status\":\"success\"}",{ 'Content-Type': 'application/json' },200);
   } 
   // 基本信息获取
   const url = new URL(request.url);
   const params = url.searchParams;
   var prompt = params.get('p'); // 提示词
   var text = params.get('t'); // 文本内容
+  var model = params.get('m'); //模型
+  var key = params.get('k'); // key
   // 获取请求头部信息
   const headers = request.headers
   // 获取聊天记录的值
-  var past_msgs = headers.get('msg')
+  var past_msgs = headers.get('msg');
   // 对消息进行解码
   if(past_msgs != null){
     past_msgs = decodeURIComponent(past_msgs);
@@ -29,7 +31,7 @@ var src_default = {
   }
   
   var reText = "喵";
-  reText = await getRes(prompt, text, env, past_msgs);
+  reText = await getRes(prompt, text, env, past_msgs,key,model);
   
   
   // 组建 JSON
@@ -43,13 +45,29 @@ var src_default = {
   return await createCORSResponse(requestJson, 
     { 'Content-Type': 'application/json' }
   ,200);
-
   }
 };
 
-async function getRes(prompt, text, env, past_msgs) {
-  try{
-  const API_KEY = "yourkeys";
+async function getRes(prompt, text, env, past_msgs, key, model) {
+var reText = "null";
+if(model == "gemini" || model == null){
+  reText = await gemini(prompt, text, past_msgs, key)
+}
+if(model == "llama"){
+ reText = await llama(prompt, text, past_msgs, env);
+}
+return reText;
+}
+  
+export {
+  src_default as default
+};
+
+// gemini 模型生成
+async function gemini(prompt, text, past_msgs, key){
+  if(key == null){
+    key = "YOURAPIKEY";
+  }
   var msg_json = {
     contents: [{
       role: "user",
@@ -72,7 +90,7 @@ async function getRes(prompt, text, env, past_msgs) {
     }]
   };
   
-  if (past_msgs != null) {
+  if (past_msgs != null && Object.prototype.toString.call(past_msgs) != '[object Object]') {
     // 解析 JSON 字符串并将其添加到 post_body.contents 中
     post_body.contents = post_body.contents.concat(JSON.parse(past_msgs).contents);
   }
@@ -87,7 +105,7 @@ async function getRes(prompt, text, env, past_msgs) {
     body: JSON.stringify(post_body)  // 需要将对象转换为 JSON 字符串
   };
   
-  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`, requestOptions);
+  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${key}`, requestOptions);
   
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -100,7 +118,10 @@ async function getRes(prompt, text, env, past_msgs) {
   reText = reText.replaceAll(/\n/g,"\\n");
   reText = reText.replaceAll("\\n\\n","\\n")
   return reText;
-}catch{
+}
+
+// llama 模型生成
+async function llama(prompt, text, past_msgs,env){
   const ai = new Ai(env.AI);
   const messages = [
     { role: 'system', content: `${prompt}` },
@@ -120,11 +141,8 @@ async function getRes(prompt, text, env, past_msgs) {
   const tran_rep_text = tran_rep_json.translated_text
   return tran_rep_text.replaceAll(`"`,`\\"`);
 }
-  
-}
-export {
-  src_default as default
-};
+
+
 
 async function createCORSResponse(value, headers, status) {
   let response = new Response(value, { status });
@@ -146,3 +164,4 @@ async function createCORSResponse(value, headers, status) {
 }
 
 //# sourceMappingURL=index.js.map
+

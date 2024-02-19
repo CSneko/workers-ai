@@ -8,7 +8,7 @@ function getValue() {
     get_msg(userInput,prompt)
 }
 function get_msg(input, prompt) {
-    var url = new URL("https://chat.ai.crystalneko.online");
+    var url = new URL("https://chat.ai.cneko.org");
     url.searchParams.append("t", input);
     url.searchParams.append("p", prompt);
   
