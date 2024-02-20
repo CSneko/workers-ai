@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-cn">
     <head>
         <title>AI</title>
         <meta charset="UTF-8">
@@ -9,7 +9,7 @@
     <body>
         <div id="messages"></div>
         <div id="type_box">
-            <textarea id="input_box" rows="2"></textarea>
+            <label for="input_box"></label><textarea id="input_box" rows="2"></textarea>
             <button onclick="getValue()">发送</button>
             <button onclick="removeData()">清除</button>
             <a href="settings.html"><button>设置</button></a>
@@ -17,7 +17,7 @@
         </div>
         
     </body>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://res.cneko.org/mirror/npm/marked/marked.min.js"></script>
     <script src="js/common.js"></script>
     <script src="js/index.js"></script>
 </html>
