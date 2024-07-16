@@ -4,7 +4,22 @@ var background_img = localStorage.getItem("background");
 document.body.style.backgroundImage = `url('${background_img}')`;
 // 设置字体颜色
 document.body.style.color = localStorage.getItem("font_color");
+// 设置字体
+document.body.style.fontFamily = localStorage.getItem("font");
+// 设置字体大小
+document.body.style.fontSize = localStorage.getItem("font_size");
+// 设置按钮大小
+// 获取所有按钮元素
+var buttons = document.querySelectorAll('button');
+/*/ 遍历所有按钮并修改大小
+buttons.forEach(function(button) {
+    // 设置宽度和高度
+    button.style.width = localStorage.getItem("button_size");; 
+    button.style.height = localStorage.getItem("button_size");; 
+});*/
 
+// 设置自定义css
+document.head.innerHTML += `<style>${localStorage.getItem("custom_css")}</style>`;
 //添加所有消息到页面
 function addAllMsg(){
     var jsonData = JSON.parse(localStorage.getItem('messages'));
