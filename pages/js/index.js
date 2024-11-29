@@ -9,6 +9,7 @@ function getValue() {
 }
 function get_msg(input, prompt) {
     var url = new URL("https://chat.ai.cneko.org");
+    url.searchParams.append("ver","v1")
     url.searchParams.append("t", input);
     url.searchParams.append("p", prompt);
   
